@@ -8,7 +8,25 @@
     <body>
         <nav></nav>
         <div role="main">
-
+            <div id="latencia_painel">
+                Latencia: <strong id="latencia_painel_value">...</strong>
+            </div>
         </div>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+            var socket = io();
+            var s2 = io("/chat");
+    
+            setInterval(function() {
+                startTime = Date.now();
+                socket.emit('ping');
+            }, 2000);
+    
+            socket.on('pong', function() {
+                latency = Date.now() - startTime;
+                $("#latencia_painel_value").text(latency);
+            });
+        </script>
     </body>
 </html>
